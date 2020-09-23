@@ -1,0 +1,17 @@
+<!-- ERREURS -->
+<string name="errorCommandNotFound">Navré, `{}` n'est pas une de mes fonctions.</string>
+<string name="errorExec">Une erreur s'est produite lors de l'appel de cette commande!</string>
+<string name="errorNoDM">Je ne peux pas exécuter cette commande en MP.</string>
+<string name="errorNoRole">Désolé, mais tu n'a pas le droit d'utiliser cette commande.</string>
+
+<!-- HELP -->
+<string name="helpTitle">Mes commandes</string>
+<string name="helpText">
+Salut toi ! Il semblerait que tu aie besoin d'aide. Voici donc une liste de mes commandes.
+Pour en savoir plus sur une commande utilise `{}nom-commande ?`
+</string>
+
+<string name="helpAdminText">
+Salut toi ! En tant que `{}`, tu as accès aux commandes administrateurs suivantes.
+Pour en savoir plus sur une commande utilise `{}nom-commande ?`
+</string>
