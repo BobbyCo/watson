@@ -13,21 +13,14 @@ const fs = require('fs');
 
 exports.ResourceManager = class {
     #REGEX
-    #res_path
-    #sheets
 
     constructor(res_path) {
         this.#REGEX = /<(\w+) name="(\w+)">([\s\S]+?)<\/\1>/gm;
 
-        if(res_path.charAt(res_path.length-1) == '/') res_path.slice(-1);
+        if(res_path.charAt(res_path.length-1) == '/')
+        	res_path.slice(-1);
 
-        this.#res_path = res_path;
-        this.#sheets = {}
-
-        this.loadResources(this.#res_path);
-
-        this.#res_path += "/datasheets";
-        this.loadDataSheets(this.#res_path);
+        this.loadResources(res_path);
     }
 
     // Retrieves XML resources and stores them in the object
@@ -56,8 +49,6 @@ exports.ResourceManager = class {
         });
     }
 
-
-
     // Extracts XML args from a tag
     getArgs(xml) {
         let data = (new RegExp(this.#REGEX.source, this.#REGEX.flags)).exec(xml);
@@ -65,69 +56,6 @@ exports.ResourceManager = class {
         if(data == null) return null;
         return {type: data[1], name: data[2], content: data[3].trim()};
     }
-
-
-
-    // retrieves all datasheets and stores them by guild (recursively)
-    loadDataSheets(path, guild_id = '') {
-        fs.readdirSync(path)
-        .filter(file => file.endsWith('.json'))
-        .forEach(file => this.loadSheet(`${path}/${file}`, guild_id));
-
-        // Load all sheets inside folder
-        fs.readdirSync(path)
-        .filter(file => fs.lstatSync(`${path}/${file}`).isDirectory())
-        .forEach(dir => this.loadDataSheets(`${path}/${dir}`, `${guild_id}["${dir}"]`));
-    }
-
-
-
-    //loads an individual sheet into memory
-    loadSheet(path, guild_id) {
-        let file_content = fs.readFileSync(path, 'utf8');
-        let file_index = path.split('/').pop().replace('.json', '');
-
-        // Handle missing info/category
-        if(guild_id == '') {
-            this.#sheets[file_index] = JSON.parse(file_content);
-        } else {
-            if(file_content == "") file_content = "{}";
-            if(!eval(`this.#sheets${guild_id}`)) eval(`this.#sheets${guild_id} = {}`);  
-            eval(`this.#sheets${guild_id}["${file_index}"] = JSON.parse(file_content)`);
-        }
-    }
-
-
-
-    // returns a json object with the guild folder
-    getDataSheet(guild_id, sheetName) {
-        guild_id += ""; // String casting
-        if(!this.#sheets[guild_id][sheetName]) return null;
-        return this.#sheets[guild_id][sheetName];
-    }
-
-
-
-    // modifies a datasheet within the guild folder
-    setDataSheet(guild_id, sheetName, data) {
-        guild_id += ""; // String casting
-
-        // Handle missing category
-        if(!this.#sheets[guild_id]) this.#sheets[guild_id] = {}
-        if (!fs.existsSync(`${this.#res_path}/${guild_id}`))
-            fs.mkdirSync(`${this.#res_path}/${guild_id}`);
-
-        this.#sheets[guild_id][sheetName] = data;
-
-        // Update file asynchronously
-        let writePath = `${this.#res_path}/${guild_id}/${sheetName}.json`;
-        fs.writeFile(writePath, JSON.stringify(data), (err) => {
-            if(err) throw err;
-            console.log('Data object updated');
-        });
-    }
-
-
 }
 
 /**
