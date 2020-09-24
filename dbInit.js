@@ -1,11 +1,13 @@
 const Sequelize = require('sequelize');
 const fs = require('fs');
 
+const {db_path} = require('config.json');
+
 const sequelize = new Sequelize('database', 'username', 'password', {
 	host: 'localhost',
 	dialect: 'sqlite',
 	logging: false,
-	storage: 'database.sqlite',
+	storage: db_path,
 });
 
 fs.readdirSync("./models/").filter(f => f.endsWith('.js')).forEach(table => {

@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const fs = require('fs');
 
+const {db_path} = require('../config.json');
+
 exports.DatabaseManager = class {
     #sequelize;
     #tables;
@@ -15,7 +17,7 @@ exports.DatabaseManager = class {
             dialect: 'sqlite',
             logging: false,
             
-            storage: 'database.sqlite',
+            storage: db_path,
         });
 
         this.#tables = {};
