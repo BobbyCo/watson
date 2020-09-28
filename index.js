@@ -64,6 +64,9 @@ bot.on("messageReactionRemove", async (r, user) => {
 
 // Dynamic command processing
 bot.on('message', async msg => {
+    // Proxy
+    if(msg.channel.type === 'dm') bot.commands.get('redirect').execute(msg, [], R);
+
     if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
 	const args = msg.content.slice(prefix.length).split(/ +/);
