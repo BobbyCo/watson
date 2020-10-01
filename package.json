@@ -1,6 +1,6 @@
 {
-  "name": "stalinbot",
-  "version": "1.0.0",
+  "name": "watson",
+  "version": "2.0.0",
   "description": "CommuMao's personnal bot",
   "main": "index.js",
   "scripts": {
