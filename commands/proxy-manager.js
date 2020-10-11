@@ -18,10 +18,8 @@ module.exports.execute = async (msg, args, R) => {
         if(proxy_commands.has(proxyCmd)) {
             return proxy_commands.get(proxyCmd).execute(msg, proxyArgs, R);
         }
-    }  
-
-    return proxy_commands.get('redirect').execute();
-    
+    } else
+        return proxy_commands.get('redirect').execute(msg, R);
 }
 
 const initProxyCommands = (path) => {

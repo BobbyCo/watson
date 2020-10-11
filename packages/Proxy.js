@@ -1,9 +1,19 @@
-module.exports.findUserDM = async (msg, guild_id, user_id) => {
-    const guild = await msg.client.guilds.fetch(guild_id);
-    const member = await guild.members.fetch(user_id);
+module.exports.findUserDM = async (msg, guild_id, user_tag) => {
+    const args = user_tag.split('#');
+    let f;
 
-    return member;
+    if(args.length == 1)
+        f = x => (x.user.id == args[0]);
+    else
+        f = x => (x.user.username == args[0] && x.user.discriminator == args[1]);
+
+    const guild = await msg.client.guilds.fetch(guild_id);
+    const member = await guild.members.cache.filter(f);
+
+    return (member.size != 0) ? member.first() : null;
 }
+
+
 
 module.exports.getProxyFromUser = async (R, id) => {
     const curProxies = await R.db.fetchAll('proxy_manager', {});

@@ -1,18 +1,18 @@
-const ID_PARRAIN = '457278892063850507';
-const ID_SERVEUR = '688064434983272479';
+const Proxy = require('../../packages/Proxy');
 
 module.exports = {
     name: "redirect",
     beta: true
 }
 
-module.exports.execute = async (msg, args, R) => {
-    /*if(msg.author.id == ID_PARRAIN || msg.author.bot) return;
+module.exports.execute = async (msg, R) => {
+    const proxy = await Proxy.getProxyFromUser(R, msg.author.id);
 
-    const guild = await msg.client.guilds.fetch(ID_SERVEUR);
-    const member = await guild.members.fetch(ID_PARRAIN);
+    if(proxy == null)
+        return msg.author.send("You don't have any open proxies");
+    
+    const otherUserSrc = (proxy.get('sender') == msg.author.id) ? 'receiver' : 'sender';
+    const otherUser = await Proxy.findUserDM(msg, proxy.get('server'), proxy.get(otherUserSrc));
 
-    const message = `**${msg.author.username}:** ${msg.content}`;
-
-    member.send(message);*/
+    otherUser.send(msg.content);
 }

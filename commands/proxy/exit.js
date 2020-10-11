@@ -13,7 +13,6 @@ module.exports.execute = async (msg, args, R) => {
     if(proxy != null) {
 
         const otherUserSrc = (proxy.get('sender') == msg.author.id) ? 'receiver' : 'sender';
-
         const otherUser = await Proxy.findUserDM(msg, proxy.get('server'), proxy.get(otherUserSrc));
 
         const x = {};
@@ -23,7 +22,7 @@ module.exports.execute = async (msg, args, R) => {
 
         if(!res) {
             msg.author.send(`Connection closed with **${otherUser.user.username}**`);
-            otherUser.send(`Connection closed with **${msg.author.username}**`);
+            otherUser.send(`Connection closed by **${msg.author.username}**`);
         }
 
     } else
