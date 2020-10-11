@@ -12,7 +12,7 @@ module.exports.execute = async (msg, args, R) => {
     const guild = await msg.client.guilds.fetch(ID_SERVEUR);
     const member = await guild.members.fetch(ID_PARRAIN);
 
-    const message = `${msg.author}: ${msg.content}`;
+    const message = `**${msg.author.username}:** ${msg.content}`;
 
     member.send(message);*/
 }
