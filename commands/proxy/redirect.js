@@ -7,13 +7,12 @@ module.exports = {
 }
 
 module.exports.execute = async (msg, args, R) => {
-    if(msg.author.id == ID_PARRAIN || msg.author.bot) return;
+    /*if(msg.author.id == ID_PARRAIN || msg.author.bot) return;
 
     const guild = await msg.client.guilds.fetch(ID_SERVEUR);
     const member = await guild.members.fetch(ID_PARRAIN);
 
     const message = `${msg.author}: ${msg.content}`;
 
-    member.send(message);
+    member.send(message);*/
 }
-

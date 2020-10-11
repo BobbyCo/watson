@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const fs = require('fs');
 
-const {db_path} = require('config.json');
+const {db_path} = require('./config.json');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
 	host: 'localhost',

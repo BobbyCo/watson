@@ -69,4 +69,8 @@ exports.DatabaseManager = class {
         let rowCount = await this.#tables[table].destroy({where: params});
         if(!rowCount) return {error: 'That entry never existed.'};
     }
+
+    async query(query_string) {
+        return await this.#sequelize.query(query_string);
+    }
 }
